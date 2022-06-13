@@ -11,7 +11,8 @@ jobs:
       - run:
           name: Build SDK 
           command: |
-            sudo apt install php7.4-imagick
+            sudo apt install libimagickwand-dev
+            supo pecl install imagick
             sh fetch.sh
             cd processmaker
             composer install
