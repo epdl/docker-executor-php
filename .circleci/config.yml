@@ -1,4 +1,6 @@
 version: 2.1
+orbs:
+  snyk: snyk/snyk@1.1.2
 jobs:
   build:
     docker:
@@ -26,6 +28,11 @@ jobs:
           name: Build Docker Image
           command: |
             sh build.sh
+      - snyk/scan:
+          docker-image-name: '$SDK_IMAGE'
+          severity-threshold: high
+          fail-on-issues: true
+          monitor-on-build: false
 workflow:
   build-executor:
     jobs:
