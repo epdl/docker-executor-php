@@ -28,8 +28,9 @@ jobs:
           name: Build Docker Image
           command: |
             sh build.sh
+            echo "export SDKIMAGE=${SDK_IMAGE}" >> $BASH_ENV
       - snyk/scan:
-          docker-image-name: '$SDK_IMAGE'
+          docker-image-name: '$SDKIMAGE'
           severity-threshold: high
           fail-on-issues: true
           monitor-on-build: false
