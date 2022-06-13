@@ -10,7 +10,7 @@ RUN php composer-setup.php --install-dir=/usr/local/bin --filename=composer
 RUN apt-get update && apt-get install -y git zip unzip
 RUN composer install
 # Copy PHP SDK
-COPY processmaker/sdk-php /opt/sdk-code
+COPY processmaker/sdk-php /opt/sdk-php
 # Install PHP SDK
 RUN composer config repositories.sdk-php path /opt/sdk-php
 RUN composer require processmaker/sdk-php:@dev
