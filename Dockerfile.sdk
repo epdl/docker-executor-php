@@ -1,47 +1,17 @@
-FROM alpine:3.15
+FROM php:7.4-cli-bullseye
 
-# Install Dependencies
-RUN apk update && apk upgrade && \
-    apk add --no-cache sudo git curl wget tar runc nginx build-base libldap=2.6.2-r0 libde265 \
-    php7 php7-fpm php7-gd php7-phar php7-soap php7-ldap php7-apcu php7-opcache \
-    php7-mbstring php7-sodium php7-imap php7-curl php7-exif php7-bcmath php7-ctype php7-xmlreader \
-    php7-zip php7-mysqli php7-json php7-pdo php7-pdo_mysql php7-tokenizer php7-simplexml \
-    php7-dom php7-xml php7-fileinfo php7-xmlwriter php7-memcached php7-mcrypt \
-    php7-pecl-redis php7-pear php7-dev php7-pcntl php7-posix php7-pdo_sqlite php7-sqlite3 \
-    imagemagick imagemagick-dev nodejs npm docker-cli mysql-client redis supervisor rsync
+# Copy over our PHP libraries/runtime
+COPY ./src /opt/executor
 
-RUN pecl install imagick && \
-    echo "extension=/usr/lib/php7/modules/imagick.so" > /etc/php7/conf.d/90-tmp.ini
+# Set working directory to our /opt/executor location
+WORKDIR /opt/executor
 
-RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" && \
-    php -r "if (hash_file('sha384', 'composer-setup.php') === '55ce33d7678c5a611085589f1f3ddf8b3c52d662cd01d4ba75c0ee0459970c2200a51f492d557530c71c15d8dba01eae') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;" && \
-    php composer-setup.php && \
-    php -r "unlink('composer-setup.php');" && \
-    mv composer.phar /usr/local/bin/composer;
+# Install composer
+RUN curl -sS https://getcomposer.org/installer -o composer-setup.php
+RUN php composer-setup.php --install-dir=/usr/local/bin --filename=composer
 
-COPY ./processmaker /opt/processmaker
-WORKDIR /opt/processmaker
+RUN apt-get update && apt-get install -y git zip unzip
 
 RUN composer install
 
-ENV DOCKER_HOST=tcp://remotedocker:2375
-
-RUN php artisan processmaker:sdk php /opt/sdk-code 
-
-# FROM php:7.4-cli-bullseye
-
-# # Copy over our PHP libraries/runtime
-# COPY ./src /opt/executor
-
-# # Set working directory to our /opt/executor location
-# WORKDIR /opt/executor
-
-# # Install composer
-# RUN curl -sS https://getcomposer.org/installer -o composer-setup.php
-# RUN php composer-setup.php --install-dir=/usr/local/bin --filename=composer
-
-# RUN apt-get update && apt-get install -y git zip unzip
-
-# RUN composer install
-
-# COPY --from=sdk /opt/sdk-code /opt/sdk-code
+COPY processmaker/sdk-php /opt/sdk-code

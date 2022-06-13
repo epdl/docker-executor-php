@@ -2,17 +2,19 @@ version: 2.1
 jobs:
   build:
     docker:
-      - image: cimg/base:stable
-      - name: remotedocker
-        image: docker:20-dind
-        privileged: true
-        environment:
-          DOCKER_TLS_CERTDIR: ''
+      - image: cimg/php:7.4-browsers
     steps:
       - checkout
       - setup_remote_docker:
           docker_layer_caching: false
           version: 20.10.14
+      - run:
+          name: Build SDK 
+          command: |
+            cd processmaker
+            composer install
+            php artisan processmaker:sdk php ./sdk-php
+            ls -al
       - run:
           name: Build Docker Image
           command: |
