@@ -33,7 +33,7 @@ jobs:
       - snyk/scan:
           docker-image-name: '$SDKIMAGE'
           severity-threshold: high
-          fail-on-issues: true
+          fail-on-issues: false
           monitor-on-build: false
       - run:
           name: Login Docker HUB
