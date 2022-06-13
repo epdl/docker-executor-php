@@ -28,7 +28,8 @@ jobs:
           name: Build Docker Image
           command: |
             sh build.sh
-            echo "export SDKIMAGE=${SDK_IMAGE}" >> $BASH_ENV
+            TAG=$(cat composer.json | jq -r '.version')
+            echo "export SDKIMAGE=${TAG}" >> $BASH_ENV
       - snyk/scan:
           docker-image-name: '$SDKIMAGE'
           severity-threshold: high
