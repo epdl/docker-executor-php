@@ -6,7 +6,7 @@ jobs:
         image: docker:20-dind
         environment:
           DOCKER_TLS_CERTDIR: ''
-      - image: cimg/base:2004.05
+      - image: cimg/base:2022.05
 
     steps:
       - checkout
