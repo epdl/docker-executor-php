@@ -29,7 +29,7 @@ jobs:
           command: |
             sh build.sh
             TAG=$(cat composer.json | jq -r '.version')
-            echo "export SDKIMAGE=${TAG}" >> $BASH_ENV
+            echo "export SDKIMAGE=processmaker/docker-executor-php:${TAG}" >> $BASH_ENV
       - snyk/scan:
           docker-image-name: '$SDKIMAGE'
           severity-threshold: high
