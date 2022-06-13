@@ -24,6 +24,8 @@ WORKDIR /opt/processmaker
 
 RUN composer install
 
+ENV DOCKER_HOST=tcp://remotedocker:2375
+
 RUN php artisan processmaker:sdk php /opt/sdk-code 
 
 # FROM php:7.4-cli-bullseye
