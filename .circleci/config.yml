@@ -11,7 +11,8 @@ jobs:
       - run:
           name: Build SDK 
           command: |
-            sudo apt install libmagickwand-dev
+            sudo apt-get update -y
+            sudo apt install libmagickwand-dev -y
             supo pecl install imagick
             sh fetch.sh
             cd processmaker
