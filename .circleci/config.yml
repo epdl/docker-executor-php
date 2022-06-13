@@ -13,7 +13,7 @@ jobs:
           command: |
             sudo apt-get update -y
             sudo apt install libmagickwand-dev -y
-            sudo pecl install imagick
+            yes '' | sudo pecl install imagick
             sh fetch.sh
             cd processmaker
             composer install
