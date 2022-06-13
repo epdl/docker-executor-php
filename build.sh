@@ -1,7 +1,5 @@
 #!/bin/sh
 
-cd processmaker
-
 # Retrieve version
 TAG=$(cat composer.json | jq -r '.version')
 
