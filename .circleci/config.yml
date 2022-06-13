@@ -11,6 +11,7 @@ jobs:
       - run:
           name: Build SDK 
           command: |
+            sh fetch.sh
             cd processmaker
             composer install
             php artisan processmaker:sdk php ./sdk-php
