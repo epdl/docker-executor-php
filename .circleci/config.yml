@@ -36,9 +36,13 @@ jobs:
           fail-on-issues: false
           monitor-on-build: false
       - run:
-          name: Login Docker HUB
+          name: "Docker Hub Login"
           command: |
-            echo "Dummy command"
+            docker login -u $DOCKER_HUB_USERNAME -p $DOCKER_HUB_PASSWORD
+      - run:
+          name: Push ECR
+          command: |
+            docker push $SDKIMAGE
 workflow:
   build-executor:
     jobs:
