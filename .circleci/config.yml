@@ -21,6 +21,7 @@ jobs:
             cd processmaker
             composer install
             php artisan processmaker:sdk php ./sdk-php
+            cd ..
       - run:
           name: Build Docker Image
           command: |
