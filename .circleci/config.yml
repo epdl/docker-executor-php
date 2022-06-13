@@ -3,12 +3,11 @@ jobs:
   build:
     docker:
       - image: cimg/base:stable
-      - name: remotedocker
-        image: docker:20-dind
-        environment:
-          DOCKER_TLS_CERTDIR: ''
     steps:
       - checkout
+      - setup_remote_docker:
+          docker_layer_caching: false
+          version: 20.10.14
       - run:
           name: Build Docker Image
           command: |
