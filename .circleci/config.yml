@@ -9,16 +9,18 @@ jobs:
           docker_layer_caching: false
           version: 20.10.14
       - run:
-          name: Build SDK 
+          name: Install requirements
           command: |
             sudo apt-get update -y
-            sudo apt install libmagickwand-dev -y
+            sudo apt install -y libmagickwand-dev jq
             echo '\n' | sudo pecl install imagick
+      - run:
+          name: Build PHP SDK 
+          command: |
             sh fetch.sh
             cd processmaker
             composer install
             php artisan processmaker:sdk php ./sdk-php
-            ls -al
       - run:
           name: Build Docker Image
           command: |
