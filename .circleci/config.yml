@@ -33,6 +33,10 @@ jobs:
           severity-threshold: high
           fail-on-issues: true
           monitor-on-build: false
+      - run:
+          name: Login Docker HUB
+          command: |
+            echo "Dummy command"
 workflow:
   build-executor:
     jobs:
